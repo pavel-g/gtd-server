@@ -9,6 +9,12 @@
         }
     ],
     "require": {
-        "propel/propel": "~2.0@dev"
+        "propel/propel": "~2.0@dev",
+        "slim/slim": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gtd\\": "./src"
+        }
     }
 }
