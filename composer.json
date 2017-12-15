@@ -8,5 +8,7 @@
             "email": "pavel@gnedov.info"
         }
     ],
-    "require": {}
+    "require": {
+        "propel/propel": "~2.0@dev"
+    }
 }
