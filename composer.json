@@ -1,0 +1,12 @@
+{
+    "name": "pavel-g/gtd-server",
+    "type": "project",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Gnedov Pavel",
+            "email": "pavel@gnedov.info"
+        }
+    ],
+    "require": {}
+}
