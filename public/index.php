@@ -6,10 +6,7 @@ require __DIR__ . '/../vendor/autoload.php';
 $config = require __DIR__ . '/../config.php';
 
 $app = new \Slim\App(['settings' => $config]);
-$app->get('/hello/{name}', function (Request $request, Response $response) {
-    $name = $request->getAttribute('name');
-    $response->getBody()->write("Hello, $name");
-
-    return $response;
+$app->get('/about', function(Request $request, Response $response) {
+	return $response->withJson(['version' => '0.0.1']);
 });
 $app->run();
