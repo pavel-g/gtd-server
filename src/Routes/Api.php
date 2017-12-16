@@ -55,7 +55,7 @@ class Api {
 		})->add(function(Request $request, Response $response, $next) {
 			$session = $this->session;
 			if (!$session->exists('userid') || !$session->exists('username') || !$session->exists('auth')) {
-				return $response->withJson(['success' => false, 'message' => 'Need auth']);
+				return $response->withJson(['success' => false, 'message' => 'Low access level']);
 			}
 			$response = $next($request, $response);
 			return $response;
