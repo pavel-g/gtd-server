@@ -52,14 +52,7 @@ class Api {
 				return $response->withJson(['success' => true]);
 			});
 			
-		})->add(function(Request $request, Response $response, $next) {
-			$session = $this->session;
-			if (!$session->exists('userid') || !$session->exists('username') || !$session->exists('auth')) {
-				return $response->withJson(['success' => false, 'message' => 'Low access level']);
-			}
-			$response = $next($request, $response);
-			return $response;
-		});
+		})->add(new \Gtd\Middlewares\CheckAuth());
 		
 	}
 	
