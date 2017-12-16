@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="gtd" defaultIdMethod="native" namespace="Gtd\Propel">
+	<table name="users" phpName="User">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+		<column name="name" type="varchar" size="255" required="true"/>
+		<column name="pass" type="varchar" size="255" required="true"/>
+		<unique name="name">
+			<unique-column name="name"/>
+		</unique>
+	</table>
+</database>
