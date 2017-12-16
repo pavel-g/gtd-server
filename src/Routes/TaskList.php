@@ -6,30 +6,30 @@ use \Gtd\CheckAuth;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use \Gtd\Propel\TaskListQuery;
-use \Gtd\Propel\TaskList;
+use \Gtd\Propel\TaskList as TaskListRecord;
 use \Gtd\Util;
 
-class Api {
+class TaskList {
 	
 	public static function init($app) {
 		
-		$app->group('/api', function() {
+		$app->group('/list', function() {
 			
-			$this->get('/lists', function(Request $request, Response $response, $args) {
+			$this->get('/all', function(Request $request, Response $response, $args) {
 				$userId = $this->session->get('userid');
 				$data = TaskListQuery::create()->findByUserId($userId);
 				$data = Util::storeKeysCamelCaseToUnderscore($data->toArray());
 				return $response->withJson(['success' => true, 'data' => $data]);
 			});
 			
-			$this->post('/list/create', function(Request $request, Response $response, $args) {
+			$this->post('/create', function(Request $request, Response $response, $args) {
 				$userId = $this->session->get('userid');
 				$body = $request->getParsedBody();
 				if (!array_key_exists('title', $body) || !is_string($body['title'])) {
 					return $response->withJson(['success' => false, 'message' => 'Unexpected title value']);
 				}
 				$title = $body['title'];
-				$list = new TaskList();
+				$list = new TaskListRecord();
 				$list->setTitle($title);
 				$list->setUserId($userId);
 				$list->save();
@@ -37,7 +37,7 @@ class Api {
 				return $response->withJson(['success' => true, 'data' => $data]);
 			});
 			
-			$this->get('/list/delete/{id:[0-9]+}', function(Request $request, Response $response, $args) {
+			$this->get('/remove/{id:[0-9]+}', function(Request $request, Response $response, $args) {
 				$userId = $this->session->get('userid');
 				$id = (integer) $args['id'];
 				$list = TaskListQuery::create()->findPk($id);
