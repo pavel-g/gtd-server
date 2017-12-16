@@ -3,3 +3,5 @@ composer.lock
 config.php
 propel.php
 generated-sql/
+
+generated-classes/
