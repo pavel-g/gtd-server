@@ -14,8 +14,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Gtd\\": "./src"
-        },
-        "classmap": ["generated-classes/"]
+            "Gtd\\": "src",
+            "Gtd\\Propel\\": "generated-classes/Gtd/Propel"
+        }
     }
 }
