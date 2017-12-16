@@ -17,7 +17,7 @@ class TaskList {
 			
 			$this->get('/all', function(Request $request, Response $response, $args) {
 				$userId = $this->session->get('userid');
-				$data = TaskListQuery::create()->findByUserId($userId);
+				$data = TaskListQuery::create()->filterByUserId($userId)->filterByRemoved(null)->find();
 				$data = Util::storeKeysCamelCaseToUnderscore($data->toArray());
 				return $response->withJson(['success' => true, 'data' => $data]);
 			});
