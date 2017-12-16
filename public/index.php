@@ -12,6 +12,7 @@ $app->get('/about', function(Request $request, Response $response) {
 	return $response->withJson(['version' => '0.0.1']);
 });
 
+\Gtd\SessionInit::init($app);
 \Gtd\Routes\Auth::init($app);
 
 $app->run();
