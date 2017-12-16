@@ -1,7 +1,7 @@
 /vendor/
-composer.lock
-config.php
-propel.php
-generated-sql/
-
-generated-classes/
+/composer.lock
+/config.php
+/propel.php
+/generated-sql/
+/generated-classes/
+/generated-conf/
