@@ -8,7 +8,7 @@
 			<unique-column name="name"/>
 		</unique>
 	</table>
-	<table name="lists" phpName="List">
+	<table name="lists" phpName="TaskList">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
 		<column name="user_id" type="integer" required="true"/>
 		<column name="title" type="integer" required="true"/>
