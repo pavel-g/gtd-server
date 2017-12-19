@@ -37,9 +37,13 @@ class TaskList {
 				return $response->withJson(['success' => true, 'data' => $data]);
 			});
 			
-			$this->get('/remove/{id:[0-9]+}', function(Request $request, Response $response, $args) {
+			$this->post('/remove', function(Request $request, Response $response, $args) {
 				$userId = $this->session->get('userid');
-				$id = (integer) $args['id'];
+				$body = $request->getParsedBody();
+				if (!array_key_exists('id', $body) || !is_numeric($body['id'])) {
+					return $response->withJson(['success' => false, 'message' => 'Unexpected id value']);
+				}
+				$id = (integer) $body['id'];
 				$list = TaskListQuery::create()->findPk($id);
 				if (empty($list)) {
 					return $response->withJson(['success' => false, 'message' => 'Tasks list not exists']);
