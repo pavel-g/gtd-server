@@ -17,4 +17,18 @@
 			<reference local="user_id" foreign="id"/>
 		</foreign-key>
 	</table>
+	<table name="tasks" phpName="TaskTree">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+		<column name="list_id" type="integer" required="true"/>
+		<column name="title" type="longvarchar" required="true"/>
+		<column name="description" type="longvarchar"/>
+		<column name="created" type="timestamp"/>
+		<column name="due" type="timestamp"/>
+		<column name="removed" type="timestamp"/>
+		<column name="completed" type="timestamp"/>
+		<foreign-key foreignTable="lists">
+			<reference local="list_id" foreign="id"/>
+		</foreign-key>
+		<behavior name="nested_set"/>
+	</table>
 </database>
