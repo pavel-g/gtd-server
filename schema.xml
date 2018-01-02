@@ -2,8 +2,8 @@
 <database name="gtd" defaultIdMethod="native" namespace="Gtd\Propel">
 	<table name="users" phpName="User">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
-		<column name="name" type="varchar" size="255" required="true"/>
-		<column name="pass" type="varchar" size="255" required="true"/>
+		<column name="name" type="varchar" size="190" required="true"/>
+		<column name="pass" type="varchar" size="190" required="true"/>
 		<unique name="name">
 			<unique-column name="name"/>
 		</unique>
@@ -11,7 +11,7 @@
 	<table name="lists" phpName="TaskList">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
 		<column name="user_id" type="integer" required="true"/>
-		<column name="title" type="varchar" size="255" required="true"/>
+		<column name="title" type="varchar" size="190" required="true"/>
 		<column name="removed" type="timestamp" required="false"/>
 		<foreign-key foreignTable="users">
 			<reference local="user_id" foreign="id"/>
@@ -29,6 +29,8 @@
 		<foreign-key foreignTable="lists">
 			<reference local="list_id" foreign="id"/>
 		</foreign-key>
-		<behavior name="nested_set"/>
+		<behavior name="nested_set">
+			<parameter name="use_scope" value="true"/>
+		</behavior>
 	</table>
 </database>
