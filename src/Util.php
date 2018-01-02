@@ -46,4 +46,11 @@ class Util {
 		return ((boolean) (($value === null) || is_numeric($value)));
 	}
 	
+	public static function checkStringOrNull($value) {
+		return ((boolean) (
+			$value === null ||
+			is_string($value)
+		));
+	}
+	
 }

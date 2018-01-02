@@ -40,11 +40,16 @@ class TaskTreeBody {
 		return $this->body['title'];
 	}
 	
+	public function getDescription() {
+		return $this->body['description'];
+	}
+	
 	protected function checkBody() {
 		return ((boolean) (
 			$this->checkParentId() &&
 			$this->checkListId() &&
-			$this->checkTitle()
+			$this->checkTitle() &&
+			$this->checkDescription()
 		));
 	}
 	
@@ -69,6 +74,14 @@ class TaskTreeBody {
 		return ((boolean) (
 			array_key_exists('title', $body) &&
 			is_string($body['title'])
+		));
+	}
+	
+	protected function checkDescription() {
+		$body = $this->body;
+		return ((boolean) (
+			array_key_exists('description', $body) &&
+			Util::checkStringOrNull($body['description'])
 		));
 	}
 	
