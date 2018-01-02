@@ -40,6 +40,10 @@ class Util {
 			$res[] = static::recordKeysCamelCaseToUnderscore($record);
 		}
 		return $res;
-	}	
+	}
+	
+	public static function checkNumericOrNull($value) {
+		return ((boolean) (($value === null) || is_numeric($value)));
+	}
 	
 }
