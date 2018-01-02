@@ -18,6 +18,10 @@ class TaskTree {
 	
 	protected $completed = null;
 	
+	protected $parentId = null;
+	
+	protected $id = null;
+	
 	public function setListId($listId) {
 		if (!is_numeric($listId)) {
 			return false;
@@ -89,6 +93,36 @@ class TaskTree {
 		return $this->completed;
 	}
 	
+	public function setParentId($id) {
+		if ($id === null) {
+			$this->parentId = null;
+			return true;
+		} else if (is_numeric($id)) {
+			$this->parentId = (integer) $id;
+			return true;
+		}
+		return false;
+	}
+	
+	public function getParentId() {
+		return $this->parentId;
+	}
+	
+	public function setId($id) {
+		if ($id === null) {
+			$this->id = null;
+			return true;
+		} else if (is_numeric($id)) {
+			$this->id = (integer) $id;
+			return true;
+		}
+		return false;
+	}
+	
+	public function getId() {
+		return $this->id;
+	}
+	
 	public function toArray() {
 		return [
 			'list_id' => $this->getListId(),
@@ -97,7 +131,9 @@ class TaskTree {
 			'created' => $this->getCreated(),
 			'due' => $this->getDue(),
 			'removed' => $this->getRemoved(),
-			'completed' => $this->getCompleted()
+			'completed' => $this->getCompleted(),
+			'parent_id' => $this->getParentId(),
+			'id' => $this->getId()
 		];
 	}
 	
