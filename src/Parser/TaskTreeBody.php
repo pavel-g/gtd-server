@@ -2,6 +2,8 @@
 
 namespace Gtd\Parser;
 
+use \Gtd\Util;
+
 class TaskTreeBody {
 	
 	protected $body;
@@ -39,10 +41,7 @@ class TaskTreeBody {
 		$body = $this->body;
 		return ((boolean) (
 			array_key_exists('parent_id', $body) &&
-			(
-				is_numeric($body['parent_id']) ||
-				$body['parent_id'] === null
-			)
+			Util::checkNumericOrNull($body['parent_id'])
 		));
 	}
 	
