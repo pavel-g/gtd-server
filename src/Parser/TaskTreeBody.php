@@ -36,10 +36,15 @@ class TaskTreeBody {
 		return ((integer) $id);
 	}
 	
+	public function getTitle() {
+		return $this->body['title'];
+	}
+	
 	protected function checkBody() {
 		return ((boolean) (
 			$this->checkParentId() &&
-			$this->checkListId()
+			$this->checkListId() &&
+			$this->checkTitle()
 		));
 	}
 	
@@ -56,6 +61,14 @@ class TaskTreeBody {
 		return ((boolean) (
 			array_key_exists('list_id', $body) &&
 			is_numeric($body['list_id'])
+		));
+	}
+	
+	protected function checkTitle() {
+		$body = $this->body;
+		return ((boolean) (
+			array_key_exists('title', $body) &&
+			is_string($body['title'])
 		));
 	}
 	
