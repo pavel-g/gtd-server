@@ -18,6 +18,10 @@ class TaskTree {
 		return $response->withJson(['success' => true, 'data' => null]);
 	}
 	
+	public function createTaskAction(Request $request, Response $response, $args) {
+		return $response->withJson(['success' => false]);
+	}
+	
 	protected function getSession() {
 		return $this->container['session'];
 	}

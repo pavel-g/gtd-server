@@ -22,6 +22,8 @@ class TaskTree {
 			
 			$this->get('/all', TaskTreeController::class . ':getAllAction');
 			
+			$this->post('/create', TaskTreeController::class . ':createTaskAction');
+			
 		})->add(new CheckAuth());
 		
 	}
