@@ -4,6 +4,8 @@ namespace Gtd;
 
 class Util {
 	
+	public static $datetimeFormat = 'Y-m-d H:i:sP';
+	
 	/**
 	 * Конвертация стиля CamelCase в underscore
 	 *
@@ -51,6 +53,24 @@ class Util {
 			$value === null ||
 			is_string($value)
 		));
+	}
+	
+	public static function stringToDate($str) {
+		if (!is_string($str)) {
+			return null;
+		}
+		$date = \DateTime::createFromFormat(self::$datetimeFormat, $str);
+		if ($date === false) {
+			return null;
+		}
+		return $date;
+	}
+	
+	public static function dateToString($date) {
+		if ( !($date instanceof \DateTime) ) {
+			return null;
+		}
+		return $date->format(self::$datetimeFormat);
 	}
 	
 }
