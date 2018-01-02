@@ -31,9 +31,15 @@ class TaskTreeBody {
 		}
 	}
 	
+	public function getListId() {
+		$id = $this->body['list_id'];
+		return ((integer) $id);
+	}
+	
 	protected function checkBody() {
 		return ((boolean) (
-			$this->checkParentId()
+			$this->checkParentId() &&
+			$this->checkListId()
 		));
 	}
 	
@@ -42,6 +48,14 @@ class TaskTreeBody {
 		return ((boolean) (
 			array_key_exists('parent_id', $body) &&
 			Util::checkNumericOrNull($body['parent_id'])
+		));
+	}
+	
+	protected function checkListId() {
+		$body = $this->body;
+		return ((boolean) (
+			array_key_exists('list_id', $body) &&
+			is_numeric($body['list_id'])
 		));
 	}
 	
