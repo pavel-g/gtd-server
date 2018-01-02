@@ -1,8 +1,8 @@
 <?php
 
-namespace Gtd\Util;
+namespace Gtd\Parser;
 
-class TaskTreeBodyParser {
+class TaskTreeBody {
 	
 	protected $body;
 	
