@@ -12,6 +12,7 @@ class BodyParser {
 	
 	public function setBody($body) {
 		$this->body = $body;
+		$this->transform();
 	}
 	
 	public function hasParam($key) {
@@ -28,6 +29,7 @@ class BodyParser {
 	
 	public function setParam($key, $value) {
 		$this->body[$key] = $value;
+		$this->transform();
 	}
 	
 	protected function transform() {}
