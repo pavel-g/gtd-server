@@ -6,8 +6,10 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use \Psr\Container\ContainerInterface;
 use \Gtd\Propel\TaskTree as TaskTreeRecord;
+use \Gtd\Propel\TaskTreeQuery;
 use \Gtd\BodyParser;
 use \Gtd\Propel\TaskListQuery;
+use \Gtd\Util;
 
 class TaskTree {
 	
@@ -25,24 +27,26 @@ class TaskTree {
 		$body = $request->getParsedBody();
 		$body = new BodyParser();
 		$body->setBody($request->getParsedBody());
-		$parentId = $body->getParam('parent_id', null);
 		$listId = $body->getParam('list_id');
 		if (!$this->checkListId($listId)) {
 			return $response->withJson(['success' => false, 'message' => 'Low access level']);
 		}
+		$parentId = $body->getParam('parent_id', null);
+		$parent = $this->getParent($parentId);
+		if ($parent === null) {
+			$parentId = null;
+		}
 		$task = new TaskTreeRecord();
+		$task->setParentId($parentId);
 		$task->setListId($listId);
 		$task->setTitle($body->getParam('title'));
 		$task->setDescription($body->getParam('description'));
 		$task->setCreated(new \DateTime('now'));
 		$task->setDue($body->getParam('due'));
-		if ($parentId === null) {
-			$task->setPath('/');
-		} else {
-			// TODO: 2018-01-03 Set parent id
-		}
+		$task->setPath($this->getPath($parent));
 		$task->save();
-		return $response->withJson(['success' => true, 'data' => $task->toArray()]);
+		$data = Util::recordKeysCamelCaseToUnderscore($task->toArray());
+		return $response->withJson(['success' => true, 'data' => $data]);
 	}
 	
 	protected function getSession() {
@@ -61,6 +65,28 @@ class TaskTree {
 			return false;
 		}
 		return ((boolean) ($userId === $list->getUserId()));
+	}
+	
+	protected function getParent($parentId) {
+		if ($parentId === null) {
+			return null;
+		}
+		$parent = TaskTreeQuery::create()->findPk($parentId);
+		if (empty($parent)) {
+			return null;
+		}
+		return $parent;
+	}
+	
+	protected function getPath($parent) {
+		if ($parent === null) {
+			return '';
+		}
+		$path = $parent->getPath();
+		if ($path === '') {
+			return $parent->getId();
+		}
+		return $path . '/' . $parent->getId();
 	}
 	
 }
