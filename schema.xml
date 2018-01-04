@@ -19,6 +19,7 @@
 	</table>
 	<table name="tasks" phpName="TaskTree">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+		<column name="path" type="varchar" size="190" required="true"/>
 		<column name="list_id" type="integer" required="true"/>
 		<column name="title" type="longvarchar" required="true"/>
 		<column name="description" type="longvarchar"/>
@@ -29,8 +30,5 @@
 		<foreign-key foreignTable="lists">
 			<reference local="list_id" foreign="id"/>
 		</foreign-key>
-		<behavior name="nested_set">
-			<parameter name="use_scope" value="true"/>
-		</behavior>
 	</table>
 </database>
