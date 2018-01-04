@@ -28,4 +28,8 @@ class Path {
 		return $this->path[$count - 1];
 	}
 	
+	public function getLevel() {
+		return count($this->path);
+	}
+	
 }
