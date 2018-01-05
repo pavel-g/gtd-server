@@ -32,4 +32,13 @@ class Path {
 		return count($this->path);
 	}
 	
+	public function shiftedPath() {
+		$path = $this->path;
+		if (count($path) <= 1) {
+			return '';
+		}
+		array_shift($path);
+		return implode('/', $path);
+	}
+	
 }
