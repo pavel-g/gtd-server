@@ -23,11 +23,11 @@ class TreeNode {
 		}
 		if ($childrenKey === null) {
 			$res = [
-				'value' => $this->value,
+				'value' => $this->valueToArray(),
 				'children' => $children
 			];
 		} else {
-			$res = $this->value;
+			$res = $this->valueToArray();
 			$res[$childrenKey] = $children;
 		}
 		return $res;
@@ -170,6 +170,10 @@ class TreeNode {
 			return explode('/', $path);
 		}
 		return $path;
+	}
+	
+	protected function valueToArray() {
+		return $this->value;
 	}
 	
 }

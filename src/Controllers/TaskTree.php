@@ -10,6 +10,7 @@ use \Gtd\Propel\TaskTreeQuery;
 use \Gtd\BodyParser;
 use \Gtd\Propel\TaskListQuery;
 use \Gtd\Util;
+use \Gtd\Helper\TreeBuilder;
 
 class TaskTree {
 	
@@ -46,6 +47,20 @@ class TaskTree {
 		$task->setPath($this->getPath($parent));
 		$task->save();
 		$data = Util::recordKeysCamelCaseToUnderscore($task->toArray());
+		return $response->withJson(['success' => true, 'data' => $data]);
+	}
+	
+	public function getFullTreeAction(Request $request, Response $response, $args) {
+		$listId = $request->getQueryParam('list_id', null);
+		if ($listId === null) {
+			return $response->withJson(['success' => false, 'message' => 'Undefined list_id']);
+		}
+		if (!$this->checkListId($listId)) {
+			return $response->withJson(['success' => false, 'message' => 'Low access level']);
+		}
+		$treeBuilder = new TreeBuilder();
+		$treeBuilder->setListId($listId);
+		$data = $treeBuilder->getTree();
 		return $response->withJson(['success' => true, 'data' => $data]);
 	}
 	
