@@ -38,7 +38,7 @@ class TreeNode {
 	}
 	
 	public function hasChildren() {
-		return ((boolean) count($this->children));
+		return ((boolean) (count($this->children) > 0));
 	}
 	
 	public function setValue($value) {
