@@ -40,7 +40,6 @@ class TreeBuilder {
 			$path = $this->getPathFromTask($task);
 			$node = new TaskTreeNode();
 			$node->setValue($task);
-			$node->setName($task->getId());
 			$this->tree->setChildByPath($path, $node);
 		}
 	}
