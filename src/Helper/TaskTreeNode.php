@@ -23,6 +23,7 @@ class TaskTreeNode extends TreeNode {
 		if ($value !== null) {
 			return $value->toArray();
 		}
+		return $value;
 	}
 	
 }
