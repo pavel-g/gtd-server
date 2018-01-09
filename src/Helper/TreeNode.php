@@ -113,8 +113,7 @@ class TreeNode {
 	
 	public function setChildByName($name, $child) {
 		for( $i = 0; $i < count($this->children); $i++ ) {
-			$child = $this->children[$i];
-			if ($child->getName() === $name) {
+			if ($this->children[$i]->getName() === $name) {
 				$this->children[$i] = $child;
 				return;
 			}
