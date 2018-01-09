@@ -142,7 +142,7 @@ class TreeNode {
 		$path = $this->parsePath($path);
 		$name = array_pop($path);
 		$node = $this->createPath($path);
-		return $this->setChildByName($name, $child);
+		return $node->setChildByName($name, $child);
 	}
 	
 	protected function appendEmptyNode($name) {
