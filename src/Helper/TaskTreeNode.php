@@ -2,6 +2,8 @@
 
 namespace Gtd\Helper;
 
+use \Gtd\Util;
+
 class TaskTreeNode extends TreeNode {
 	
 	public function getName() {
@@ -16,7 +18,7 @@ class TaskTreeNode extends TreeNode {
 	protected function valueToArray() {
 		$value = $this->getValue();
 		if ($value !== null) {
-			return $value->toArray();
+			return Util::recordKeysCamelCaseToUnderscore($value->toArray());
 		}
 		return $value;
 	}
