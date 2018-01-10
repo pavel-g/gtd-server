@@ -61,6 +61,9 @@ class TaskTree {
 		$treeBuilder = new TreeBuilder();
 		$treeBuilder->setListId($listId);
 		$data = $treeBuilder->getTree();
+		if (is_array($data) && array_key_exists('children', $data)) {
+			$data = $data['children'];
+		}
 		return $response->withJson(['success' => true, 'data' => $data]);
 	}
 	
