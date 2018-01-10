@@ -4,18 +4,13 @@ namespace Gtd\Helper;
 
 class TaskTreeNode extends TreeNode {
 	
-	public function setName($name) {
-		if ($name === 'root') {
-			$this->name = $name;
-		}
-	}
-	
 	public function getName() {
-		if ($this->name === 'root') {
-			return $this->name;
-		}
 		$value = $this->getValue();
-		return (($value) ? $value->getId() : null);
+		if ($value) {
+			$id = $value->getId();
+			return (string) $id;
+		}
+		return parent::getName();
 	}
 	
 	protected function valueToArray() {

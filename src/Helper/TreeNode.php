@@ -83,7 +83,7 @@ class TreeNode {
 	}
 	
 	public function setName($name) {
-		$this->name = $name;
+		$this->name = (string) $name;
 	}
 	
 	public function getPath($full = false) {
@@ -104,7 +104,7 @@ class TreeNode {
 	public function getChildByName($name) {
 		for( $i = 0; $i < count($this->children); $i++ ) {
 			$child = $this->children[$i];
-			if ($child->getName() === $name) {
+			if ($child->getName() == $name) {
 				return $child;
 			}
 		}
@@ -113,7 +113,7 @@ class TreeNode {
 	
 	public function setChildByName($name, $child) {
 		for( $i = 0; $i < count($this->children); $i++ ) {
-			if ($this->children[$i]->getName() === $name) {
+			if ($this->children[$i]->getName() == $name) {
 				$this->children[$i] = $child;
 				return;
 			}
