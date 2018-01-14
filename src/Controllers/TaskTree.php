@@ -21,7 +21,17 @@ class TaskTree {
 	}
 	
 	public function getAllAction(Request $request, Response $response, $args) {
-		return $response->withJson(['success' => true, 'data' => null]);
+		$listId = $request->getQueryParam('list_id', null);
+		if ($listId === null) {
+			return $response->withJson(['success' => false, 'message' => 'Undefined list_id']);
+		}
+		if (!$this->checkListId($listId)) {
+			return $response->withJson(['success' => false, 'message' => 'Low access level']);
+		}
+		$parentId = $request->getQueryParam('node', null);
+		$tasks = TaskTreeQuery::create()->filterByListId($listId)->filterByParentId($parentId)->find();
+		$data = Util::storeKeysCamelCaseToUnderscore($tasks->toArray());
+		return $response->withJson(['success' => true, 'data' => $data]);
 	}
 	
 	public function createTaskAction(Request $request, Response $response, $args) {
