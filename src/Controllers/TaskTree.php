@@ -29,6 +29,9 @@ class TaskTree {
 			return $response->withJson(['success' => false, 'message' => 'Low access level']);
 		}
 		$parentId = $request->getQueryParam('node', null);
+		if ($parentId === 'root') {
+			$parentId = null;
+		}
 		$tasks = TaskTreeQuery::create()->filterByListId($listId)->filterByParentId($parentId)->find();
 		$data = Util::storeKeysCamelCaseToUnderscore($tasks->toArray());
 		return $response->withJson(['success' => true, 'data' => $data]);
