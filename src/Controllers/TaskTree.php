@@ -41,7 +41,7 @@ class TaskTree {
 		$body = $request->getParsedBody();
 		$body = new BodyParser();
 		$body->setBody($request->getParsedBody());
-		$listId = $body->getParam('list_id');
+		$listId = $request->getQueryParam('list_id', null);
 		if (!$this->checkListId($listId)) {
 			return $response->withJson(['success' => false, 'message' => 'Low access level']);
 		}
