@@ -38,7 +38,6 @@ class TaskTree {
 	}
 	
 	public function createTaskAction(Request $request, Response $response, $args) {
-		$body = $request->getParsedBody();
 		$body = new BodyParser();
 		$body->setBody($request->getParsedBody());
 		$listId = $request->getQueryParam('list_id', null);
