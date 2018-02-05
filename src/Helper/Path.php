@@ -41,4 +41,18 @@ class Path {
 		return implode('/', $path);
 	}
 	
+	public function getParts() {
+		return $this->path;
+	}
+	
+	public function isPartOf($path) {
+		$parts = $path->getParts();
+		for( $i = 0; $i < count($this->path); $i++ ) {
+			if ($this->path[$i] !== $parts[$i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 }
