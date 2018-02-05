@@ -2,6 +2,8 @@
 
 namespace Gtd;
 
+use \Gtd\Helper\Path;
+
 class Util {
 	
 	public static $datetimeFormat = 'Y-m-d H:i:sP';
@@ -71,6 +73,16 @@ class Util {
 			return null;
 		}
 		return $date->format(self::$datetimeFormat);
+	}
+	
+	public static function createPathFromTask($task) {
+		$path = $task->getPath();
+		$id = $task->getId();
+		if ($path === '') {
+			return new Path($id);
+		} else {
+			return new Path($path . '/' . $id);
+		}
 	}
 	
 }
