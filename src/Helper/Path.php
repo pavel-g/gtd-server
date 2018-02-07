@@ -55,4 +55,14 @@ class Path {
 		return true;
 	}
 	
+	public function replace($from, $to) {
+		if (!$from->isPartOf($this)) {
+			return false;
+		}
+		$current = $this->path;
+		$toParts = $to->getParts();
+		array_splice($this->path, 0, count($from->getParts()), $toParts);
+		return true;
+	}
+	
 }
