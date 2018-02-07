@@ -11,6 +11,7 @@ use \Gtd\BodyParser;
 use \Gtd\Propel\TaskListQuery;
 use \Gtd\Util;
 use \Gtd\Helper\TreeBuilder;
+use \Gtd\TaskUpdater;
 
 class TaskTree {
 	
@@ -77,6 +78,26 @@ class TaskTree {
 			$data = $data['children'];
 		}
 		return $response->withJson(['success' => true, 'data' => $data]);
+	}
+	
+	public function updateTaskAction(Request $request, Response $response, $args) {
+		$listId = $request->getQueryParam('list_id', null);
+		if ($listId === null) {
+			throw new \Exception('Undefined list_id');
+		}
+		if (!$this->checkListId($listId)) {
+			throw new \Exception('Low access level');
+		}
+		$body = new BodyParser();
+		$body->setBody($request->getParsedBody());
+		$id = $body->getParam('id', null);
+		if ($id === null) {
+			throw new \Exception('Undefined id');
+		}
+		$task = TaskTreeQuery::create()->findPk($id);
+		$updater = new TaskUpdater();
+		$updater->update($body, $task);
+		return $response->withJson(['success' => true]);
 	}
 	
 	protected function getSession() {
