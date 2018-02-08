@@ -6,3 +6,5 @@
 /generated-classes/Gtd/Propel/Base
 /generated-classes/Gtd/Propel/Map
 /generated-conf/
+/\.vscode/
+/log
