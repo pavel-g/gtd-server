@@ -28,6 +28,7 @@
 		<column name="due" type="timestamp"/>
 		<column name="removed" type="timestamp"/>
 		<column name="completed" type="timestamp"/>
+		<column name="has_children" type="boolean" required="true" defaultValue="false"/>
 		<foreign-key foreignTable="lists">
 			<reference local="list_id" foreign="id"/>
 		</foreign-key>
