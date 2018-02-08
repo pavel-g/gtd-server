@@ -33,6 +33,8 @@ class TaskTree extends BaseTaskTree
 		$this->oldParentId = $this->getParentId();
 		parent::setParentId($v);
 		$this->updateSelfPath($v);
+		$this->updateNewParentHasChildren();
+		$this->updateOldParentHasChildren();
 		return $this;
 	}
 	
@@ -41,10 +43,13 @@ class TaskTree extends BaseTaskTree
 		if ($this->isModified()) {
 			return false;
 		}
-		$parent = TaskTreeQuery::create()->findById($this->oldParentId);
+		$parent = TaskTreeQuery::create()->findPk($this->oldParentId);
 		if (empty($parent)) {
-			throw new \Exception('Parent not exists');
+			return false;
 		}
+		$children = TaskTreeQuery::create()->findChildren($parent);
+		$parent->setHasChildren(!empty($children));
+		$parent->save();
 		return true;
 	}
 	
@@ -53,7 +58,11 @@ class TaskTree extends BaseTaskTree
 		if ($this->isModified()) {
 			return false;
 		}
-		$parent = TaskTreeQuery::create()->findById($this->getParentId());
+		$parentId = $this->getParentId();
+		if ($parentId === null) {
+			return false;
+		}
+		$parent = TaskTreeQuery::create()->findPk($parentId);
 		if (empty($parent)) {
 			throw new \Exception('Parent not exists');
 		}
