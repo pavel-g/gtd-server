@@ -62,11 +62,6 @@ class TaskTree extends BaseTaskTree
 		return true;
 	}
 	
-	public function getChildren()
-	{
-		
-	}
-	
 	protected function updateSelfPath($v)
 	{
 		if ($v === null) {
