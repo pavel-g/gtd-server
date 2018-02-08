@@ -43,4 +43,13 @@ class TaskTreeQuery extends BaseTaskTreeQuery
 		return $this->filterByPath($path, Criteria::LIKE);
 	}
 	
+	public function findParent($task)
+	{
+		$parentId = $task->getParentId();
+		if ($parentId === null) {
+			return null;
+		}
+		return $this->findPk($parentId);
+	}
+	
 }
