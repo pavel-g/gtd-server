@@ -3,5 +3,6 @@
 /config.php
 /propel.php
 /generated-sql/
-/generated-classes/
+/generated-classes/Gtd/Propel/Base
+/generated-classes/Gtd/Propel/Map
 /generated-conf/
