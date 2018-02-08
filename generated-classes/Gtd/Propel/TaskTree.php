@@ -18,6 +18,16 @@ use \Gtd\Propel\TaskTreeQuery;
 class TaskTree extends BaseTaskTree
 {
 	
+	public function getFullPath()
+	{
+		$path = $this->getPath();
+		if (empty($path)) {
+			return ((string) ($this->getId()));
+		} else {
+			return $path . '/' . $this->getId();
+		}
+	}
+	
 	public function setParentId($v)
 	{
 		parent::setParentId($v);
