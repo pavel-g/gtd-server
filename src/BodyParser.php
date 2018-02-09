@@ -32,6 +32,14 @@ class BodyParser {
 		$this->transform();
 	}
 	
+	public function hasIntOrNull($key)
+	{
+		if (!array_key_exists($key, $this->body)) {
+			return false;
+		}
+		return ($this->body[$key] === null || is_numeric($this->body[$key]));
+	}
+	
 	public function getInt($key, $default = null) {
 		if (!$this->hasParam($key)) {
 			return $default;
