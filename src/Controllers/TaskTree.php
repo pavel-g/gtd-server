@@ -43,7 +43,7 @@ class TaskTree {
 		$body->setBody($request->getParsedBody());
 		$listId = $request->getQueryParam('list_id', null);
 		if (!$this->checkListId($listId)) {
-			return $response->withJson(['success' => false, 'message' => 'Low access level']);
+			throw new \Exception('Low access level');
 		}
 		$parentId = $body->getParam('parent_id', null);
 		$parent = $this->getParent($parentId);
@@ -51,7 +51,6 @@ class TaskTree {
 			$parentId = null;
 		}
 		$task = new TaskTreeRecord();
-		$task->setParentId($parentId);
 		$task->setListId($listId);
 		$task->setTitle($body->getParam('title'));
 		$task->setDescription($body->getParam('description'));
@@ -59,6 +58,7 @@ class TaskTree {
 		$task->setDue($body->getParam('due'));
 		$task->setPath($this->getPath($parent));
 		$task->save();
+		$task->setSmartParentId($parentId);
 		$data = Util::recordKeysCamelCaseToUnderscore($task->toArray());
 		return $response->withJson(['success' => true, 'data' => $data]);
 	}
