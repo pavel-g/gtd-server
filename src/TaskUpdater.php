@@ -41,61 +41,14 @@ class TaskUpdater {
 	}
 	
 	protected function move() {
-		$newParentId = $this->body->getInt('parent_id');
-		if ($newParentId === null) {
+		if (!$this->body->hasIntOrNull('parent_id')) {
 			return;
 		}
-		$oldParentId = $this->record->getParentId();
-		if ($newParentId !== $oldParentId) {
-			/** @var Path $currentPath */
-			$currentPath = Util::createPathFromTask($this->record);
-			$newParent = TaskTreeQuery::create()->findPk($newParentId);
-			$newParentPath = Util::createPathFromTask($newParent);
-			if ($currentPath->isPartOf($newParentPath)) {
-				throw new \Exception('Impossible move task into children');
-			}
-			$this->record->setParentId($newParentId);
-			$newPath = $newParent->getPath();
-			/** @var string $newPath */
-			if ($newPath === '') {
-				$newPath = (string) $newParentId;
-			} else {
-				$newPath = $newPath . '/' . $newParentId;
-			}
-			$this->record->setPath($newPath);
-			$this->updateChildrenPath($currentPath->getPath(), $newParentPath->getFullPath());
-		}
-	}
-	
-	protected function updateChildrenPath($old, $new) {
-		$listId = $this->record->getListId();
-		$children = TaskTreeQuery::create()
-		            ->filterByListId($listId)
-		            ->filterByPath($old . '/%', Criteria::LIKE)
-		            ->filterByPath($old, Criteria::NOT_LIKE)
-		            ->find();
-		$oldPath = new Path($old);
-		$newPath = new Path($new);
-		for( $i = 0; $i < count($children); $i++ ) {
-			$child = $children[$i];
-			$childPath = Util::createPathFromTask($child);
-			$childPath->replace($oldPath, $newPath);
-			$child->setPath($childPath->getPath());
-			$child->save();
-		}
+		$newParentId = $this->body->getInt('parent_id');
+		$this->record->setSmartParentId($newParentId);
 	}
 	
 	protected function changeCompleted() {
-		if (!$this->body->hasParam('completed')) {
-			return;
-		}
-		$completed = $this->body->getParam('completed');
-		if ($completed === null) {
-			$this->record->setCompleted(null);
-		} else {
-			$now = new \DateTime();
-			$this->record->setCompleted($now);
-		}
 	}
 	
 }
