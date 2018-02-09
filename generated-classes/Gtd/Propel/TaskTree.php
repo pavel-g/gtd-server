@@ -41,7 +41,7 @@ class TaskTree extends BaseTaskTree
 		$this->oldValues['full_path'] = $this->getFullPath();
 		
 		if ($this->oldValues['parent_id'] !== null) {
-			$this->oldParent = TaskListQuery::create()->findPk($this->oldValues['parent_id']);
+			$this->oldParent = TaskTreeQuery::create()->findPk($this->oldValues['parent_id']);
 		} else {
 			$this->oldParent = null;
 		}
