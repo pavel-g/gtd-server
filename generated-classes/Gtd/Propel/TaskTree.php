@@ -71,6 +71,37 @@ class TaskTree extends BaseTaskTree
 		return TaskTreeQuery::create()->findPk($id);
 	}
 	
+	/**
+	 * @param boolean $value
+	 * @return void
+	 */
+	public function setSmartCompleted($value)
+	{
+		if ($value === false) {
+			$this->setCompleted(null);
+			$this->save();
+			return $this;
+		} else if ($value !== true) {
+			return $this;
+		}
+		
+		$now = new \DateTime();
+		
+		$children = TaskTreeQuery::create()->findAllChildren($this);
+		/** @var TaskTree $child */
+		foreach ($children as &$child) {
+			if (!$child->getCompleted()) {
+				$child->setCompleted($now);
+				$child->save();
+			}
+		}
+		
+		$this->setCompleted($now);
+		$this->save();
+		
+		return $this;
+	}
+	
 	protected function updateOldParentHasChildren()
 	{
 		$parent = $this->oldParent;

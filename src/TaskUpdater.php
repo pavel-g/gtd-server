@@ -2,6 +2,7 @@
 
 namespace Gtd;
 
+use Gtd\Propel\TaskTree;
 use \Gtd\Propel\TaskTreeQuery;
 use \Gtd\Util;
 use \Gtd\Helper\Path;
@@ -10,6 +11,21 @@ use \Propel\Runtime\ActiveQuery\Criteria;
 
 class TaskUpdater {
 	
+	/**
+	 * @var BodyParser
+	 */
+	protected $body = null;
+	
+	/**
+	 * @var TaskTree
+	 */
+	protected $record = null;
+	
+	/**
+	 * @param BodyParser $body
+	 * @param TaskTree $record
+	 * @return void
+	 */
 	public function update($body, $record) {
 		$this->body = $body;
 		$this->record = $record;
@@ -32,6 +48,9 @@ class TaskUpdater {
 		$this->record->fromArray($values, TableMap::TYPE_FIELDNAME);
 	}
 	
+	/**
+	 * @return string[]
+	 */
 	protected function getPropertiesForUpdate() {
 		return [
 			'title',
@@ -48,7 +67,13 @@ class TaskUpdater {
 		$this->record->setSmartParentId($newParentId);
 	}
 	
-	protected function changeCompleted() {
+	protected function changeCompleted()
+	{
+		if (!$this->body->hasParam('completed')) {
+			return;
+		}
+		$completed = ((boolean) ($this->body->getParam('completed')));
+		$this->record->setSmartCompleted($completed);
 	}
 	
 }
