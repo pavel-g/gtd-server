@@ -12,6 +12,7 @@ use \Gtd\Propel\TaskListQuery;
 use \Gtd\Util;
 use \Gtd\Helper\TreeBuilder;
 use \Gtd\TaskUpdater;
+use Propel\Runtime\Map\TableMap;
 
 class TaskTree {
 	
@@ -34,7 +35,10 @@ class TaskTree {
 			$parentId = null;
 		}
 		$tasks = TaskTreeQuery::create()->filterByListId($listId)->filterByParentId($parentId)->find();
-		$data = Util::storeKeysCamelCaseToUnderscore($tasks->toArray());
+		$data = $tasks->toArray(null, false, TableMap::TYPE_FIELDNAME);
+		for( $i = 0; $i < count($data); $i++ ) {
+			$data[$i]['leaf'] = !$data[$i]['has_children'];
+		}
 		return $response->withJson(['success' => true, 'data' => $data]);
 	}
 	
