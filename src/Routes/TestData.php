@@ -52,9 +52,10 @@ class TestData {
 	
 	public static function createTask($listId, $params) {
 		$task = new TaskTree();
-		$task->fromArray($params, TableMap::TYPE_FIELDNAME);
+		$task->setTitle($params['title']);
 		$task->setListId($listId);
 		$task->save();
+		$task->setSmartParentId($params['parent_id']);
 	}
 	
 	public static function createTasks($listId, $params) {
