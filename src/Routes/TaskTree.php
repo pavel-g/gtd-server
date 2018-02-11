@@ -28,6 +28,8 @@ class TaskTree {
 			
 			$this->post('/update', TaskTreeController::class . ':updateTaskAction');
 			
+			$this->get('/find', TaskTreeController::class . ':findAction');
+			
 		})->add(new CheckAuth());
 		
 	}

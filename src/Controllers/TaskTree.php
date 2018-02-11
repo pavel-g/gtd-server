@@ -13,6 +13,7 @@ use \Gtd\Util;
 use \Gtd\Helper\TreeBuilder;
 use \Gtd\TaskUpdater;
 use Propel\Runtime\Map\TableMap;
+use Gtd\TaskFinder;
 
 class TaskTree {
 	
@@ -104,6 +105,41 @@ class TaskTree {
 		return $response->withJson(['success' => true]);
 	}
 	
+	/**
+	 * Поиск задач
+	 * 
+	 * Обработчик запроса /tree/find
+	 * 
+	 * Принимает в качестве параметров:
+	 * 
+	 * * list_id - идентификатор списка (обязательный параметр)
+	 * * id - идентификатор задачи
+	 * * title - название задачи
+	 * 
+	 * Для выполнения так же должен быть указан либо id, либо title
+	 *
+	 * @param Request $request
+	 * @param Response $response
+	 * @param mixed $args
+	 * @return Response
+	 */
+	public function findAction(Request $request, Response $response, $args)
+	{
+		$listId = $request->getQueryParam('list_id', null);
+		$this->requireListId($listId);
+		
+		$title = $request->getQueryParam('title', null);
+		$id = $request->getQueryParam('id', null);
+		
+		$finder = new TaskFinder($listId);
+		$data = $finder->find([
+			'id' => $id,
+			'title' => $title
+		]);
+		
+		return $response->withJson(['success' => true, 'data' => $data]);
+	}
+	
 	protected function getSession() {
 		return $this->container['session'];
 	}
@@ -120,6 +156,19 @@ class TaskTree {
 			return false;
 		}
 		return ((boolean) ($userId === $list->getUserId()));
+	}
+	
+	/**
+	 * @param integer $listId
+	 * @throws \Exception
+	 */
+	protected function requireListId($listId)
+	{
+		$userId = $this->getUserId();
+		$list = TaskListQuery::create()->findPk($listId);
+		if (empty($list) || $userId !== $list->getUserId()) {
+			throw new \Exception('Low access level');
+		}
 	}
 	
 	protected function getParent($parentId) {
