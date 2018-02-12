@@ -117,6 +117,18 @@ class TaskTree {
 	 * * title - название задачи
 	 * 
 	 * Для выполнения так же должен быть указан либо id, либо title
+	 * 
+	 * Возвращает массив с результатми поиска в виде:
+	 * 
+	 * <pre>
+	 * {
+	 *     "success": true,
+	 *     "data": [
+	 *         {},
+	 *         {}
+	 *     ]
+	 * }
+	 * </pre>
 	 *
 	 * @param Request $request
 	 * @param Response $response
