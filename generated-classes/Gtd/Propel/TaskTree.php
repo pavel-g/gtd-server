@@ -109,7 +109,11 @@ class TaskTree extends BaseTaskTree
 			return;
 		}
 		$children = TaskTreeQuery::create()->findChildren($parent);
-		$parent->setHasChildren(!empty($children));
+		$hasChildren = ((boolean) (
+			!empty($children) &&
+			$children->count() > 0
+		));
+		$parent->setHasChildren($hasChildren);
 		$parent->save();
 	}
 	
