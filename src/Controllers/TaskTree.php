@@ -35,7 +35,7 @@ class TaskTree {
 		if ($parentId === 'root') {
 			$parentId = null;
 		}
-		$tasks = TaskTreeQuery::create()->filterByListId($listId)->filterByParentId($parentId)->find();
+		$tasks = TaskTreeQuery::create()->filterByListId($listId)->filterByParentId($parentId)->filterByRemoved(null)->find();
 		$data = $tasks->toArray(null, false, TableMap::TYPE_FIELDNAME);
 		for( $i = 0; $i < count($data); $i++ ) {
 			$data[$i]['leaf'] = !$data[$i]['has_children'];
