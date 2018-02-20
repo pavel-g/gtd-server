@@ -152,6 +152,52 @@ class TaskTree {
 		return $response->withJson(['success' => true, 'data' => $data]);
 	}
 	
+	/**
+	 * Remove task
+	 * 
+	 * Handler for url /tree/remove
+	 * 
+	 * Params:
+	 * 
+	 * * list_id (integer) - required
+	 * * id (integer) - required
+	 * 
+	 * Return json:
+	 * 
+	 * <pre>
+	 * {"success": true}
+	 * </pre>
+	 *
+	 * @param Request $request
+	 * @param Response $response
+	 * @param mixed $args
+	 * @return Response
+	 */
+	public function removeAction(Request $request, Response $response, $args)
+	{
+		$listId = $request->getQueryParam('list_id', null);
+		$this->requireListId($listId);
+		
+		$body = new BodyParser();
+		$body->setBody($request->getParsedBody());
+		
+		$id = $body->getInt('id');
+		
+		if (!is_numeric($id)) {
+			throw new \Exception('Undefined id');
+		}
+		$id = (integer) $id;
+		
+		$task = TaskTreeQuery::create()->filterByListId($listId)->filterById($id)->findOne();
+		if ($task === null) {
+			return $response->withJson(['success' => false, 'message' => 'Task not exists']);
+		}
+		
+		$task->smartRemove();
+		
+		return $response->withJson(['success' => true]);
+	}
+	
 	protected function getSession() {
 		return $this->container['session'];
 	}

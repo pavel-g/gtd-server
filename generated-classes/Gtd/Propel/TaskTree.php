@@ -73,7 +73,7 @@ class TaskTree extends BaseTaskTree
 	
 	/**
 	 * @param boolean $value
-	 * @return void
+	 * @return self
 	 */
 	public function setSmartCompleted($value)
 	{
@@ -97,6 +97,30 @@ class TaskTree extends BaseTaskTree
 		}
 		
 		$this->setCompleted($now);
+		$this->save();
+		
+		return $this;
+	}
+	
+	/**
+	 * @return self
+	 */
+	public function smartRemove()
+	{
+		$completed = $this->getCompleted();
+		$removed = $this->getRemoved();
+		if (!empty($removed) || !empty($completed)) {
+			return;
+		}
+		$now = new \DateTime();
+		
+		$children = TaskTreeQuery::create()->filterByRemoved(null)->findAllChildren($this);
+		foreach( $children as &$child ) {
+			$child->setRemoved($now);
+			$child->save();
+		}
+		
+		$this->setRemoved($now);
 		$this->save();
 		
 		return $this;
