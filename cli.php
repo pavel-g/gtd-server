@@ -1,6 +1,7 @@
 <?php
 
 require(__DIR__ . '/vendor/autoload.php');
+require_once(__DIR__ . '/generated-conf/config.php');
 
 use GetOpt\GetOpt;
 use GetOpt\Option;
@@ -22,17 +23,9 @@ $getopt->addCommand(\GetOpt\Command::create('install', function () {
 
 // process arguments and catch user errors
 try {
-	try {
-		$getopt->process();
-	} catch (Missing $exception) {
-		// catch missing exceptions if help is requested
-		if (!$getopt->getOption('help')) {
-			throw $exception;
-		}
-	}
+	$getopt->process();
 } catch (ArgumentException $exception) {
 	file_put_contents('php://stderr', $exception->getMessage() . PHP_EOL);
-	echo PHP_EOL . $getopt->getHelpText();
 	exit;
 }
 
