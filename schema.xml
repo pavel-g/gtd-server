@@ -36,7 +36,7 @@
 	<table name="attributes" phpName="Attributes">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
 		<column name="task_id" type="integer" required="true"/>
-		<column name="type_id" type="integer" required="true"/>
+		<column name="type" type="varchar" size="50" required="true"/>
 		<column name="string_value" type="longvarchar"/>
 		<column name="integer_value" type="bigint"/>
 		<column name="float_value" type="double"/>
@@ -45,31 +45,30 @@
 			<reference local="task_id" foreign="id"/>
 		</foreign-key>
 		<foreign-key foreignTable="attribute_types">
-			<reference local="type_id" foreign="id"/>
+			<reference local="type" foreign="code"/>
 		</foreign-key>
 		<unique name="attr_unique">
 			<unique-column name="task_id"/>
-			<unique-column name="type_id"/>
+			<unique-column name="type"/>
 		</unique>
 	</table>
 	<table name="attribute_types" phpName="AttributeTypes">
-		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
-		<column name="name" type="varchar" size="190" required="190"/>
-		<column name="type" type="integer" required="true"/>
+		<column name="code" type="varchar" size="50" required="true" primaryKey="true"/>
+		<column name="name" type="varchar" size="190" required="true"/>
+		<column name="type" type="varchar" size="50" required="true"/>
 		<foreign-key foreignTable="types">
-			<reference local="type" foreign="id"/>
+			<reference local="type" foreign="code"/>
 		</foreign-key>
 	</table>
-	<table name="types">
-		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
-		<column name="code" type="varchar" size="190" required="true"/>
-		<column name="group_id" type="integer" required="true"/>
+	<table name="types" phpName="Types">
+		<column name="code" type="varchar" size="50" required="true" primaryKey="true"/>
+		<column name="group_code" type="varchar" size="50" required="true"/>
 		<foreign-key foreignTable="type_groups">
-			<reference local="group_id" foreign="id"/>
+			<reference local="group_code" foreign="code"/>
 		</foreign-key>
 	</table>
-	<table name="type_groups">
-		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
-		<column name="code" type="varchar" size="190" required="true"/>
+	<table name="type_groups" phpName="TypeGroups">
+		<column name="code" type="varchar" size="50" required="true" primaryKey="true"/>
+		<column name="name" type="varchar" size="190" required="true"/>
 	</table>
 </database>
