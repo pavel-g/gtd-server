@@ -15,7 +15,6 @@ $app->get('/about', function(Request $request, Response $response) {
 \Gtd\SessionInit::init($app);
 \Gtd\Routes\Auth::init($app);
 \Gtd\Routes\TaskList::init($app);
-\Gtd\Routes\TestData::init($app);
 \Gtd\Routes\TaskTree::init($app);
 \Gtd\ErrorHandler::init($app);
 
