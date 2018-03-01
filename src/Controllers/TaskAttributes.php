@@ -30,4 +30,9 @@ class TaskAttributes
 		return $response->withJson(['success' => true]);
 	}
 	
+	public function deleteAction(Request $request, Response $response, $args)
+	{
+		return $response->withJson(['success' => true]);
+	}
+	
 }

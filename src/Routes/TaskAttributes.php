@@ -20,6 +20,7 @@ class TaskAttributes
 		$app->group('/attributes', function () {
 			$this->get('/get', TaskAttributesController::class . ':getAction');
 			$this->post('/save', TaskAttributesController::class . ':saveAction');
+			$this->post('/delete', TaskAttributesController::class . ':deleteAction');
 		});
 	}
 	
