@@ -21,6 +21,11 @@ $getopt->addCommand(\GetOpt\Command::create('install', function () {
 	$install->install();
 })->setDescription('Install taskflower'));
 
+$getopt->addCommand(Command::create('test-data', function () {
+	$testdata = new \Gtd\Cli\TestData();
+	$testdata->install();
+}));
+
 // process arguments and catch user errors
 try {
 	$getopt->process();
