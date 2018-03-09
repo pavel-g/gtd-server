@@ -50,4 +50,19 @@ class AttributeTypes
 		}
 	}
 	
+	/**
+	 * @param string $type
+	 * @return string|null
+	 */
+	public static function getValueFieldByAttributeType($type)
+	{
+		switch ($type) {
+			case self::ATTRIBUTE_HASHTAGS:
+			case self::ATTRIBUTE_REPEAT_RULE;
+				return 'string_value';
+			default:
+				return null;
+		}
+	}
+	
 }
