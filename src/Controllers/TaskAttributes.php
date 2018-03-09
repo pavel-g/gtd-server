@@ -7,9 +7,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Propel\Runtime\Map\TableMap;
 use Gtd\Propel\AttributeTypesQuery;
+use Gtd\GetSessionUserId;
 
 class TaskAttributes
 {
+	
+	use GetSessionUserId;
 	
 	/**
 	 * @var ContainerInterface
