@@ -21,6 +21,7 @@ class TaskAttributes
 			$this->get('/get', TaskAttributesController::class . ':getAction');
 			$this->post('/save', TaskAttributesController::class . ':saveAction');
 			$this->post('/delete', TaskAttributesController::class . ':deleteAction');
+			$this->get('/types', TaskAttributesController::class . ':typesAction');
 		});
 	}
 	

@@ -5,6 +5,8 @@ namespace Gtd\Controllers;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Propel\Runtime\Map\TableMap;
+use Gtd\Propel\AttributeTypesQuery;
 
 class TaskAttributes
 {
@@ -33,6 +35,39 @@ class TaskAttributes
 	public function deleteAction(Request $request, Response $response, $args)
 	{
 		return $response->withJson(['success' => true]);
+	}
+	
+	/**
+	 * Attributes types
+	 * 
+	 * Url: /api/attributes/types
+	 * 
+	 * Method: GET
+	 * 
+	 * Return json with data:
+	 * 
+	 * ```
+	 * [
+	 *     {
+	 *         "code": "STRING_CONSTANT",
+	 *         "name": "Attribute description",
+	 *         "type": "STRING_CONSTANT"
+	 *     }
+	 * ]
+	 * ```
+	 *
+	 * @param Request $request
+	 * @param Response $response
+	 * @param [type] $args
+	 * @return void
+	 */
+	public function typesAction(Request $request, Response $response, $args)
+	{
+		$data = AttributeTypesQuery::create()->find();
+		return $response->withJson([
+			'success' => true,
+			'data' => $data->toArray(null, false, TableMap::TYPE_FIELDNAME)
+		]);
 	}
 	
 }
