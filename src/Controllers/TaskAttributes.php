@@ -212,7 +212,7 @@ class TaskAttributes
 	 * @param integer $taskId
 	 * @param array $params
 	 * @throws \Exception
-	 * @return Attributes/null
+	 * @return Attributes|null
 	 */
 	protected function saveAttribute($taskId, $params)
 	{
@@ -250,7 +250,7 @@ class TaskAttributes
 	 * @param array $attr
 	 * @return array
 	 */
-	protected function serializeAttributeForClients(array $attr): array
+	protected function serializeAttributeForClients($attr)
 	{
 		$valueField = AttributeTypesConsts::getValueFieldByAttributeType($attr['type']);
 		$data = [
