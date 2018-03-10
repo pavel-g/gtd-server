@@ -70,15 +70,7 @@ class TaskAttributes
 		$attributes = AttributesQuery::create()->findByTaskId($taskId);
 		$data = [];
 		foreach( $attributes as $attribute ) {
-			$attrType = $attribute->getType();
-			$valueField = AttributeTypesConsts::getValueFieldByAttributeType($attrType);
-			$value = $attribute->toArray(TableMap::TYPE_FIELDNAME)[$valueField];
-			$data[] = [
-				'id' => $attribute->getId(),
-				'task_id' => $taskId,
-				'type' => $attrType,
-				'value' => $value
-			];
+			$data[] = $this->serializeAttributeForClients($attribute->toArray(TableMap::TYPE_FIELDNAME));
 		}
 		return $response->withJson(['success' => true, 'data' => $data]);
 	}
@@ -127,10 +119,12 @@ class TaskAttributes
 		$taskId = $this->getTaskId($request);
 		$this->checkTaskId($taskId);
 		$body = $request->getParsedBody();
+		$data = [];
 		foreach( $body as $key => $value ) {
-			$this->saveAttribute($taskId, $value);
+			$attribute = $this->saveAttribute($taskId, $value);
+			$data[] = $this->serializeAttributeForClients($attribute->toArray(TableMap::TYPE_FIELDNAME));
 		}
-		return $response->withJson(['success' => true]);
+		return $response->withJson(['success' => true, 'data' => $data]);
 	}
 	
 	public function deleteAction(Request $request, Response $response, $args)
@@ -250,6 +244,22 @@ class TaskAttributes
 		}
 		$attr->save();
 		return $attr;
+	}
+	
+	/**
+	 * @param array $attr
+	 * @return array
+	 */
+	protected function serializeAttributeForClients(array $attr): array
+	{
+		$valueField = AttributeTypesConsts::getValueFieldByAttributeType($attr['type']);
+		$data = [
+			'id' => $attr['id'],
+			'type' => $attr['type'],
+			'task_id' => $attr['task_id'],
+			'value' => $attr[$valueField]
+		];
+		return $data;
 	}
 	
 }
