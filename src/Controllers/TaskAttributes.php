@@ -49,7 +49,21 @@ class TaskAttributes
 	 */
 	public function getAction(Request $request, Response $response, $args)
 	{
-		$data = null;
+		$taskId = $this->getTaskId($request);
+		$this->checkTaskId($taskId);
+		$attributes = AttributesQuery::create()->findByTaskId($taskId);
+		$data = [];
+		foreach( $attributes as $attribute ) {
+			$attrType = $attribute->getType();
+			$valueField = AttributeTypesConsts::getValueFieldByAttributeType($attrType);
+			$value = $attribute->toArray(TableMap::TYPE_FIELDNAME)[$valueField];
+			$data[] = [
+				'id' => $attribute->getId(),
+				'task_id' => $taskId,
+				'type' => $attrType,
+				'value' => $value
+			];
+		}
 		return $response->withJson(['success' => true, 'data' => $data]);
 	}
 	
