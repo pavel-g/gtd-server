@@ -127,8 +127,47 @@ class TaskAttributes
 		return $response->withJson(['success' => true, 'data' => $data]);
 	}
 	
+	/**
+	 * Delete attributes
+	 * 
+	 * Url: /attributes/delete
+	 * 
+	 * Method: POST
+	 * 
+	 * Parameters in url:
+	 * 
+	 * * task_id
+	 * 
+	 * Body:
+	 * 
+	 * ```json
+	 * ["ATTRIBUTE_REPEAT_RULE","ATTRIBUTE_HASHTAGS"]
+	 * ```
+	 * 
+	 * Response:
+	 * 
+	 * ```json
+	 * {"success":true}
+	 * ```
+	 *
+	 * @param Request $request
+	 * @param Response $response
+	 * @param mixed $args
+	 * @return void
+	 */
 	public function deleteAction(Request $request, Response $response, $args)
 	{
+		$taskId = $this->getTaskId($request);
+		$this->checkTaskId($taskId);
+		$body = $request->getParsedBody();
+		foreach( $body as $type ) {
+			if (AttributeTypesConsts::isAttributeType($type)) {
+				$attr = AttributesQuery::create()->filterByTaskId($taskId)->findOneByType($type);
+				if (!empty($attr)) {
+					$attr->delete();
+				}
+			}
+		}
 		return $response->withJson(['success' => true]);
 	}
 	
@@ -228,7 +267,7 @@ class TaskAttributes
 			$insert = true;
 			$attr = new Attributes();
 		} else {
-			$update = true;
+			$insert = false;
 		}
 		$value = $bodyParser->getParam('value');
 		if (is_array($value)) {
