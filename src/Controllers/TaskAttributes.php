@@ -34,13 +34,29 @@ class TaskAttributes
 	/**
 	 * Attributes list
 	 * 
-	 * Url: /api/attributes/get
+	 * Url: /attributes/get
 	 * 
 	 * Method: GET
 	 * 
 	 * Parameters in url:
 	 * 
 	 * * task_id (integer)
+	 * 
+	 * Response:
+	 * 
+	 * ```json
+	 * {
+	 *     "success": true,
+	 *     "data": [
+	 *         {
+	 *             "id": 1,
+	 *             "task_id": 1,
+	 *             "type": "<string>",
+	 *             "value": "<json>"
+	 *         }
+	 *     ]
+	 * }
+	 * ```
 	 *
 	 * @param Request $request
 	 * @param Response $response
@@ -70,13 +86,35 @@ class TaskAttributes
 	/**
 	 * Save attribute
 	 * 
-	 * Url: /api/attributes/save
+	 * Url: /attributes/save
 	 * 
 	 * Method: POST
 	 * 
+	 * Parameters in url
+	 * 
+	 * * task_id (integer)
+	 * 
 	 * Body json format:
 	 * 
+	 * ```json
+	 * [
+	 *     {
+	 *         "type": "ATTRIBUTE_HASHTAGS",
+	 *         "value": [
+	 *             "в_городе",
+	 *             "студенческая",
+	 *             "кольцово"
+	 *         ]
+	 *     }
+	 * ]
 	 * ```
+	 * 
+	 * Response:
+	 * 
+	 * ```json
+	 * {
+	 *     "success": true
+	 * }
 	 * ```
 	 *
 	 * @param Request $request
