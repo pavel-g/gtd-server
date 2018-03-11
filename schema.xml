@@ -25,7 +25,6 @@
 		<column name="title" type="longvarchar" required="true"/>
 		<column name="description" type="longvarchar"/>
 		<column name="created" type="timestamp"/>
-		<column name="due" type="timestamp"/>
 		<column name="removed" type="timestamp"/>
 		<column name="completed" type="timestamp"/>
 		<column name="has_children" type="boolean" required="true" defaultValue="false"/>
@@ -41,6 +40,8 @@
 		<column name="integer_value" type="bigint"/>
 		<column name="float_value" type="double"/>
 		<column name="boolean_value" type="boolean"/>
+		<column name="timestamp_value" type="timestamp"/>
+		<column name="date_value" type="date"/>
 		<foreign-key foreignTable="tasks">
 			<reference local="task_id" foreign="id"/>
 		</foreign-key>
