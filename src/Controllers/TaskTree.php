@@ -68,11 +68,10 @@ class TaskTree {
 		$task->setTitle($body->getParam('title'));
 		$task->setDescription($body->getParam('description'));
 		$task->setCreated(new \DateTime('now'));
-		$task->setDue($body->getParam('due'));
 		$task->setPath($this->getPath($parent));
 		$task->save();
 		$task->setSmartParentId($parentId);
-		$data = Util::recordKeysCamelCaseToUnderscore($task->toArray());
+		$data = $task->toArray(TableMap::TYPE_FIELDNAME);
 		return $response->withJson(['success' => true, 'data' => $data]);
 	}
 	

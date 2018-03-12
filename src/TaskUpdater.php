@@ -54,8 +54,7 @@ class TaskUpdater {
 	protected function getPropertiesForUpdate() {
 		return [
 			'title',
-			'description',
-			'due'
+			'description'
 		];
 	}
 	
