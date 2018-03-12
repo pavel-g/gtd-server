@@ -20,7 +20,7 @@ class Install
 		
 		echo "Prepare attribute types...";
 		$this->prepareConstants();
-		echo "DONE" . PHP_EOL;
+		echo " DONE" . PHP_EOL;
 	}
 	
 	public function prepareConstants()
