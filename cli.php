@@ -26,6 +26,20 @@ $getopt->addCommand(Command::create('test-data', function () {
 	$testdata->install();
 }));
 
+$getopt->addCommand(Command::create('generate', function () {
+	$generate = new \Gtd\Cli\Generate();
+	$generate->install();
+}));
+
+$getopt->addCommand(Command::create('all', function() {
+	$generate = new \Gtd\Cli\Generate();
+	$generate->install();
+	$install = new Install();
+	$install->install();
+	$testdata = new \Gtd\Cli\TestData();
+	$testdata->install();
+}));
+
 // process arguments and catch user errors
 try {
 	$getopt->process();
