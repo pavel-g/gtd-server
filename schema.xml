@@ -29,6 +29,9 @@
 		<column name="removed" type="timestamp"/>
 		<column name="completed" type="timestamp"/>
 		<column name="has_children" type="boolean" required="true" defaultValue="false"/>
+		<column name="hashtags" type="longvarchar"/>
+		<column name="repeat_rule" type="longvarchar"/>
+		<column name="start" type="timestamp"/>
 		<foreign-key foreignTable="lists">
 			<reference local="list_id" foreign="id"/>
 		</foreign-key>
