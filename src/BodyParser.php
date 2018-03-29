@@ -50,6 +50,24 @@ class BodyParser {
 		return $default;
 	}
 	
+	/**
+	 * @param string $key
+	 * @param mixed $default
+	 * @return string
+	 */
+	public function getStringFromJson($key, $default = null) {
+		if (!$this->hasParam($key)) {
+			return $default;
+		}
+		if (is_string($this->body[$key])) {
+			return $this->body[$key];
+		}
+		if (\is_array($this->body[$key])) {
+			return json_encode($this->body[$key]);
+		}
+		return $default;
+	}
+	
 	protected function transform() {}
 	
 }

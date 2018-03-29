@@ -55,7 +55,10 @@ class TaskUpdater {
 		return [
 			'title',
 			'description',
-			'due'
+			'due',
+			'hashtags',
+			'repeat_rule',
+			'start'
 		];
 	}
 	
