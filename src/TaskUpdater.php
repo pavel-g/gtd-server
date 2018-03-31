@@ -32,6 +32,8 @@ class TaskUpdater {
 		$this->move();
 		$this->changeCompleted();
 		$this->updateProperties();
+		$this->updateHashtags();
+		$this->updateRepeatRule();
 		$this->record->save();
 	}
 	
@@ -56,8 +58,6 @@ class TaskUpdater {
 			'title',
 			'description',
 			'due',
-			'hashtags',
-			'repeat_rule',
 			'start'
 		];
 	}
@@ -77,6 +77,34 @@ class TaskUpdater {
 		}
 		$completed = ((boolean) ($this->body->getParam('completed')));
 		$this->record->setSmartCompleted($completed);
+	}
+	
+	protected function updateHashtags() {
+		if (!$this->body->hasParam('hashtags')) {
+			return;
+		}
+		$hashtags = $this->body->getParam('hashtags');
+		if (is_array($hashtags)) {
+			$hashtags = json_encode($hashtags);
+		}
+		if (!is_string($hashtags)) {
+			return;
+		}
+		$this->record->setHashtags($hashtags);
+	}
+	
+	protected function updateRepeatRule() {
+		if (!$this->body->hasParam('repeat_rule')) {
+			return;
+		}
+		$rule = $this->body->getParam('repeat_rule');
+		if (is_array($rule)) {
+			$rule = json_encode($rule);
+		}
+		if (!is_string($rule)) {
+			return;
+		}
+		$this->record->setRepeatRule($rule);
 	}
 	
 }
