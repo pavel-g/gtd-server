@@ -66,6 +66,7 @@ class TaskTree {
 		$task->setRepeatRule($body->getStringFromJson('repeat_rule'));
 		$task->setDue($body->getParam('due'));
 		$task->setStart($body->getParam('start'));
+		$task->setOrder($body->getParam('order'));
 		$task->save();
 		$task->setSmartParentId($parentId);
 		$data = Util::recordKeysCamelCaseToUnderscore($task->toArray());

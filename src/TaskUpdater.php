@@ -58,7 +58,8 @@ class TaskUpdater {
 			'title',
 			'description',
 			'due',
-			'start'
+			'start',
+			'order'
 		];
 	}
 	
