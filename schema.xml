@@ -32,7 +32,7 @@
 		<column name="hashtags" type="longvarchar"/>
 		<column name="repeat_rule" type="longvarchar"/>
 		<column name="start" type="timestamp"/>
-		<column name="order" type="integer"/>
+		<column name="priority" type="integer"/>
 		<foreign-key foreignTable="lists">
 			<reference local="list_id" foreign="id"/>
 		</foreign-key>

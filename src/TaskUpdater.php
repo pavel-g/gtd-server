@@ -59,7 +59,7 @@ class TaskUpdater {
 			'description',
 			'due',
 			'start',
-			'order'
+			'priority'
 		];
 	}
 	
