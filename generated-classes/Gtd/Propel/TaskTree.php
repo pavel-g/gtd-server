@@ -5,6 +5,7 @@ namespace Gtd\Propel;
 use Gtd\Propel\Base\TaskTree as BaseTaskTree;
 use \Gtd\Propel\TaskTreeQuery;
 use Propel\Runtime\Map\TableMap;
+use Gtd\RepeatTypes;
 
 /**
  * Skeleton subclass for representing a row from the 'tasks' table.
@@ -124,6 +125,72 @@ class TaskTree extends BaseTaskTree
 		$this->save();
 		
 		return $this;
+	}
+	
+	/**
+	 * Parse repeat rule
+	 * 
+	 * Return assoc array:
+	 * 
+	 * ```
+	 * [
+	 *     'type' => '',
+	 *     'interval' => 0
+	 * ]
+	 * ```
+	 *
+	 * @inheritDoc
+	 * @return array|null
+	 */
+	public function getRepeatRule()
+	{
+		$value = parent::getRepeatRule();
+		if (!is_string($value) || $value === '') {
+			return null;
+		}
+		$value = json_decode($value, true);
+		$type = $value['type'];
+		$typesList = RepeatTypes::getRepeatTypes();
+		if (!in_array($type, $typesList)) {
+			throw new \Exception('Wrong value of "type"');
+		}
+		if ($type === RepeatTypes::BY_HAND_REPEAT) {
+			return ['type' => $type];
+		}
+		$interval = $value['interval'];
+		if (!is_numeric($interval)) {
+			throw new \Exception('Wrong value of "interval"');
+		}
+		return ['type' => $type, 'interval' => ((int) $interval)];
+	}
+	
+	/**
+	 * @inheritDoc
+	 * @param array|null $v
+	 * @return void
+	 */
+	public function setRepeatRule($v)
+	{
+		if ($v === null) {
+			return parent::setRepeatRule($v);
+		}
+		if (!is_array($v)) {
+			throw new \Exception('Wrong value of repeat_rule field');
+		}
+		$typesList = RepeatTypes::getRepeatTypes();
+		$res = [];
+		if (isset($v['type']) && in_array($v['type'], $typesList)) {
+			$res['type'] = $v['type'];
+		} else {
+			throw new \Exception('Wrong type of "type"');
+		}
+		if ($res['type'] === RepeatTypes::AUTO_REPEAT) {
+			if (!is_numeric($v['interval'])) {
+				throw new \Exception('Wrong type of "interval"');
+			}
+			$res['interval'] = $v['interval'];
+		}
+		return parent::setRepeatRule(json_encode($res));
 	}
 	
 	protected function updateOldParentHasChildren()

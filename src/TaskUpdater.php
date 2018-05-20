@@ -99,12 +99,6 @@ class TaskUpdater {
 			return;
 		}
 		$rule = $this->body->getParam('repeat_rule');
-		if (is_array($rule)) {
-			$rule = json_encode($rule);
-		}
-		if (!is_string($rule)) {
-			return;
-		}
 		$this->record->setRepeatRule($rule);
 	}
 	
